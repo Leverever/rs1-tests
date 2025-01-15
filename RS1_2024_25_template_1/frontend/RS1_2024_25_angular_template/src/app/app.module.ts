@@ -11,13 +11,32 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MyErrorHandlingInterceptor} from './services/auth-services/my-error-handling-interceptor.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {CustomTranslateLoader} from './services/custom-translate-loader';
+import { StudentListComponent } from './modules/admin/student-list/student-list.component';
+import { StudentEditComponent } from './modules/admin/student-edit/student-edit.component';
+import {MatButton} from '@angular/material/button';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow, MatRowDef, MatTable
+} from '@angular/material/table';
+import {MatIcon} from '@angular/material/icon';
+import {MatInput} from '@angular/material/input';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, MatSortHeader} from '@angular/material/sort';
+import {MatCard} from '@angular/material/card';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StudentListComponent,
+    StudentEditComponent
   ],
   imports: [
     BrowserAnimationsModule, // Potrebno za animacije
@@ -35,7 +54,25 @@ import {CustomTranslateLoader} from './services/custom-translate-loader';
     MatFormField,
     MatSelect,
     MatOption,
-    MatLabel
+    MatLabel,
+    MatButton,
+    MatCell,
+    MatCellDef,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatIcon,
+    MatInput,
+    MatPaginator,
+    MatRow,
+    MatRowDef,
+    MatSort,
+    MatSortHeader,
+    MatTable,
+    MatHeaderCellDef,
+    MatCard,
+    MatError
 
   ],
   providers: [

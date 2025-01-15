@@ -1,0 +1,61 @@
+<mat-card class="city-form-card">
+  <h2 *ngIf="student">{{"STUDENT-EDIT.TITLE" | translate}}</h2>
+
+  <form (ngSubmit)="updateStudent()" [formGroup]="form">
+    <label>{{"STUDENT-EDIT.DOB" | translate}}</label>
+    <input type="date" formControlName="dateOfBirth">
+    @if (form.get('dobValidator')?.hasError('min')) {
+      <p>Datum manji od validnog</p>
+    }
+    @if (form.get('dobValidator')?.hasError('max')) {
+      <p>Datum veći od validnog</p>
+    }
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>{{"STUDENT-EDIT.PHONE" | translate}}</mat-label>
+      <input formControlName="phone" matInput required/>
+      <mat-error *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
+        <!-- Dinamičko prikazivanje grešaka -->
+        <ng-container *ngIf="form.get('phone')?.errors as errors">
+          <small *ngIf="errors['pattern']">phone 06x-xxx-xxx.</small>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>{{"STUDENT-EDIT.COUNTRY" | translate}}</mat-label>
+      <mat-select formControlName="countryId" required>
+        <mat-option *ngFor="let country of countries" [value]="country.id">
+          {{ country.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('countryId')?.invalid && form.get('countryId')?.touched">
+        <ng-container *ngIf="form.get('countryId')?.errors as errors">
+          <small *ngIf="errors['required']">Country is required.</small>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Region Dropdown -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>{{"STUDENT-EDIT.MUNICIPALITY" | translate}}</mat-label>
+      <mat-select formControlName="municipalityId" required>
+        <mat-option *ngFor="let m of municipalites" [value]="m.id">
+          {{ m.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('municipalityId')?.touched && form.get('municipalityId')?.errors">
+        <span *ngIf="form.get('municipalityId')?.errors?.['required']">Region is required.</span>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-buttons">
+      <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">
+        {{"STUDENT-EDIT.SAVE" | translate}}
+      </button>
+      <button color="warn" mat-raised-button routerLink="/admin/cities" type="button">
+        {{"STUDENT-EDIT.CANCEL" | translate}}
+      </button>
+    </div>
+  </form>
+</mat-card>

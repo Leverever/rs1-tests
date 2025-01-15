@@ -11,5 +11,14 @@
     "PASSWORD_PLACEHOLDER": "Enter password",
     "SAVE_LOGIN": "Save login",
     "BUTTON": "Login"
+  },
+  "STUDENT-EDIT": {
+    "TITLE": "Edit student",
+    "DOB": "Date Of Birth",
+    "PHONE": "Phone number",
+    "COUNTRY": "Country",
+    "MUNICIPALITY": "Municipality",
+    "SAVE": "Save changes",
+    "CANCEL": "Cancel"
   }
 }
