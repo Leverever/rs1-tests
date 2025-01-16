@@ -125,4 +125,8 @@ export class StudentListComponent implements OnInit {
       this.dataSource.data = this.students!.dataItems.filter(val => !val.isDeleted);
     }
   }
+
+  openRecord(id:number) {
+    this.router.navigate(["/admin/maticna", id]);
+  }
 }

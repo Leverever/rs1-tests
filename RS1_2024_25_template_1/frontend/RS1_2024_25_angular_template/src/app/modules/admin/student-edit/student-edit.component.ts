@@ -9,12 +9,14 @@ import {
 } from '../../../endpoints/country-endpoints/country-get-all-endpoint.service';
 
 export interface StudentGetIdResponse {
-  id: string;
+  id: number;
   birthMunicipality: string;
   birthMunicipalityId: number;
   phone: string;
   dateOfBirth: string;
   countryId: number;
+  firstName: string;
+  lastName: string;
 }
 
 export interface MunicipalityResponse {

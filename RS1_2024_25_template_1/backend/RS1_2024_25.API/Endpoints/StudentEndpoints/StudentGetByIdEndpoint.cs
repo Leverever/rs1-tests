@@ -21,6 +21,7 @@ namespace RS1_2024_25.API.Endpoints.StudentEndpoints
             await db.Municipalities.LoadAsync(cancellationToken);
             await db.Cities.LoadAsync(cancellationToken);
             await db.Regions.LoadAsync(cancellationToken);
+            await db.MyAppUsers.LoadAsync(cancellationToken);
 
             return Ok(new StudentGetIdResponse
             {
@@ -29,7 +30,9 @@ namespace RS1_2024_25.API.Endpoints.StudentEndpoints
                 BirthMunicipalityId = s.BirthMunicipalityId.GetValueOrDefault(),
                 DateOfBirth = s.BirthDate != null ? new DateTime(s.BirthDate.Value!, TimeOnly.MinValue) : DateTime.Now,
                 Phone = s.ContactMobilePhone ?? "061-xxx-xxx",
-                CountryId = s.BirthMunicipality?.City?.Region?.CountryId ?? 0
+                CountryId = s.BirthMunicipality?.City?.Region?.CountryId ?? 0,
+                FirstName = s.User.FirstName,
+                LastName = s.User.LastName,
             });
         }
     }
@@ -42,5 +45,8 @@ namespace RS1_2024_25.API.Endpoints.StudentEndpoints
         public int CountryId { get; set; }
         public string Phone { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
     }
 }

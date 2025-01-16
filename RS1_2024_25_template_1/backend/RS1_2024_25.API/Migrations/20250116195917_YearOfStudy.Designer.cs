@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RS1_2024_25.API.Data;
 
@@ -11,9 +12,11 @@ using RS1_2024_25.API.Data;
 namespace RS1_2024_25.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250116195917_YearOfStudy")]
+    partial class YearOfStudy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,52 +234,6 @@ namespace RS1_2024_25.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Tenants", (string)null);
-                });
-
-            modelBuilder.Entity("RS1_2024_25.API.Data.Models.SharedTables.YearOfStudy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AkademskaGodinaId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("CijenaSkolarine")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime?>("DatumOvjere")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DatumUpisa")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GodinaStudija")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NapomenaZaOvjeru")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Obnova")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SnimioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AkademskaGodinaId");
-
-                    b.HasIndex("SnimioId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("YearOfStudies", (string)null);
                 });
 
             modelBuilder.Entity("RS1_2024_25.API.Data.Models.TenantSpecificTables.Modul1_Auth.MyAppUser", b =>
@@ -569,33 +526,6 @@ namespace RS1_2024_25.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("RS1_2024_25.API.Data.Models.SharedTables.YearOfStudy", b =>
-                {
-                    b.HasOne("RS1_2024_25.API.Data.Models.SharedTables.AcademicYear", "AkademskaGodina")
-                        .WithMany()
-                        .HasForeignKey("AkademskaGodinaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("RS1_2024_25.API.Data.Models.TenantSpecificTables.Modul1_Auth.MyAppUser", "Snimio")
-                        .WithMany()
-                        .HasForeignKey("SnimioId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("RS1_2024_25.API.Data.Models.TenantSpecificTables.Modul2_Basic.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("AkademskaGodina");
-
-                    b.Navigation("Snimio");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("RS1_2024_25.API.Data.Models.TenantSpecificTables.Modul1_Auth.MyAppUser", b =>

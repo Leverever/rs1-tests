@@ -2,7 +2,7 @@
   <h2 *ngIf="student">{{"STUDENT-EDIT.TITLE" | translate}}</h2>
 
   <form (ngSubmit)="updateStudent()" [formGroup]="form">
-    <label>{{"STUDENT-EDIT.DOB" | translate}}</label>
+    <mat-label>{{"STUDENT-EDIT.DOB" | translate}}</mat-label>
     <input type="date" formControlName="dateOfBirth">
     @if (form.get('dobValidator')?.hasError('min')) {
       <p>Datum manji od validnog</p>

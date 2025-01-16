@@ -2,26 +2,29 @@
 using Microsoft.EntityFrameworkCore;
 using RS1_2024_25.API.Data;
 using RS1_2024_25.API.Helper.Api;
+using RS1_2024_25.API.Services;
 using System.Text.RegularExpressions;
 
 namespace RS1_2024_25.API.Endpoints.StudentEndpoints
 {
     [Route("students")]
-    public class StudentEditEndpoint(ApplicationDbContext db) : MyEndpointBaseAsync.WithRequest<StudentEditRequest>.WithActionResult
+    public class StudentEditEndpoint(ApplicationDbContext db, IMyAuthService myAuthService) : MyEndpointBaseAsync.WithRequest<StudentEditRequest>.WithActionResult
     {
         [HttpPut("edit")]
         public override async Task<ActionResult> HandleAsync([FromBody] StudentEditRequest request, CancellationToken cancellationToken = default)
         {
+            var info = myAuthService.GetAuthInfoFromRequest();
+
+            if(!info.IsLoggedIn)
+            {
+                return Unauthorized();
+            }
+
             var s = await db.StudentsAll.FindAsync(request.Id, cancellationToken);
 
             if(s == null)
             {
                 return NotFound();
-            }
-
-            if(!Regex.Match(request.Phone, "^06\\d-\\d\\d\\d-\\d\\d\\d").Success)
-            {
-                return BadRequest();
             }
 
             s.BirthDate = DateOnly.FromDateTime(request.DateOfBirth);

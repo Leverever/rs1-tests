@@ -1,0 +1,17 @@
+<div>
+  <form (ngSubmit)="ovjeri()">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Komentar</mat-label>
+      <input [formControl]="napomena" matInput required/>
+      <mat-error *ngIf="napomena.invalid">
+        <!-- Dinamičko prikazivanje grešaka -->
+        <ng-container *ngIf="napomena.errors as errors">
+          <small *ngIf="errors['pattern']">phone 06x-xxx-xxx.</small>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button type="submit">Ovjeri</button>
+    <button mat-flat-button type="button" (click)="return()">Otkazi</button>
+  </form>
+</div>

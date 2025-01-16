@@ -31,6 +31,7 @@ import {MatInput} from '@angular/material/input';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, MatSortHeader} from '@angular/material/sort';
 import {MatCard} from '@angular/material/card';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,10 @@ import {MatCard} from '@angular/material/card';
     MatTable,
     MatHeaderCellDef,
     MatCard,
-    MatError
+    MatError,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker
 
   ],
   providers: [
