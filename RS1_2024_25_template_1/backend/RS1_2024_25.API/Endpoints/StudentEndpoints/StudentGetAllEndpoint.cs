@@ -31,6 +31,29 @@ public class StudentGetAllEndpoint(ApplicationDbContext db) : MyEndpointBaseAsyn
             );
         }
 
+        if (!string.IsNullOrWhiteSpace(request.FirstLast))
+        {
+            if (request.FirstLast.Contains(" "))
+            {
+                var split = request.FirstLast.Split(' ');
+                query = query.Where(s => 
+                    (s.User.FirstName.ToLower().Contains(split[0].ToLower()) && s.User.LastName.ToLower().Contains(split[1].ToLower()))
+                    ||
+                    (s.User.LastName.ToLower().Contains(split[0].ToLower()) && s.User.FirstName.ToLower().Contains(split[1].ToLower()))
+                );
+            }
+            else
+            {
+                query = query.Where(s => s.User.FirstName.ToLower().Contains(request.FirstLast.ToLower()) || s.User.LastName.ToLower().Contains(request.FirstLast.ToLower()));
+            }
+
+        }
+
+        await db.Municipalities.LoadAsync();
+        await db.Cities.LoadAsync();
+        await db.Regions.LoadAsync();
+        await db.MyAppUsers.LoadAsync();
+
         // Projektovanje u DTO tip za rezultat
         var projectedQuery = query.Select(s => new StudentGetAllResponse
         {
@@ -40,6 +63,11 @@ public class StudentGetAllEndpoint(ApplicationDbContext db) : MyEndpointBaseAsyn
             StudentNumber = s.StudentNumber,
             Citizenship = s.Citizenship != null ? s.Citizenship.Name : null,
             BirthMunicipality = s.BirthMunicipality != null ? s.BirthMunicipality.Name : null,
+            BirthMunicipalityId = s.BirthMunicipalityId != null ? s.BirthMunicipalityId.Value : 0,
+            CountryId = s.BirthMunicipality.City.Region.CountryId,
+            DateOfBirth = s.BirthDate != null ? s.BirthDate.Value : DateOnly.MinValue,
+            Phone = s.ContactMobilePhone ?? "",
+            IsDeleted = s.IsDeleted
         });
 
         // Kreiranje paginiranog rezultata
@@ -52,6 +80,7 @@ public class StudentGetAllEndpoint(ApplicationDbContext db) : MyEndpointBaseAsyn
     public class StudentGetAllRequest : MyPagedRequest
     {
         public string? Q { get; set; } = string.Empty; // Tekstualni upit za pretragu
+        public string? FirstLast { get; set; }
     }
 
     // DTO za odgovor
@@ -63,5 +92,12 @@ public class StudentGetAllEndpoint(ApplicationDbContext db) : MyEndpointBaseAsyn
         public required string StudentNumber { get; set; }
         public string? Citizenship { get; set; }
         public string? BirthMunicipality { get; set; }
+
+        public int CountryId { get; set; }
+        public int BirthMunicipalityId { get; set; }
+        public string Phone { get; set; } = string.Empty;
+        public DateOnly DateOfBirth { get; set; }
+        
+        public bool IsDeleted { get; set; }
     }
 }

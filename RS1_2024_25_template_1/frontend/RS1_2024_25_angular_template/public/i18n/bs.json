@@ -11,6 +11,15 @@
     "PASSWORD_PLACEHOLDER": "Unesite šifru",
     "SAVE_LOGIN": "Sačuvaj prijavu",
     "BUTTON": "Prijavi se"
+  },
+  "EDIT": {
+    "TITLE": "Uredi studenta",
+    "SAVE": "Sačuvaj",
+    "CANCEL": "Otkaži",
+    "DOB": "Datum rodjenja",
+    "PHONE": "Broj telefona",
+    "COUNTRY": "Država",
+    "MUNICIPALITY": "Općina"
   }
 }
 

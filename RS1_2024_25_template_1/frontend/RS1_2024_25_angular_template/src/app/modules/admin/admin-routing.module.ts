@@ -15,6 +15,8 @@ import {MyChatComponent} from '../shared/mychat/mychat.component';
 import {
   RxjsSubjectMessageExampleComponent
 } from './rxjs-subject-message-example/rxjs-subject-message-example.component';
+import {StudentListComponent} from './student-list/student-list.component';
+import {StudentEditComponent} from './student-edit/student-edit.component';
 
 //komentar
 const routes: Routes = [
@@ -37,6 +39,8 @@ const routes: Routes = [
       {path: 'order', component: ReservationComponent},
       {path: 'chat', component: MyChatComponent},
       {path: 'rxjs-subject-message-example', component: RxjsSubjectMessageExampleComponent},
+      {path: 'students', component: StudentListComponent},
+      {path: 'student/:id', component: StudentEditComponent},
       {path: '**', component: AdminErrorPageComponent} // Default ruta
     ]
   },
