@@ -1,0 +1,137 @@
+<h2>Student Matricualtion Record</h2>
+<h4>Student Number: {{student?.studentNumber}}</h4>
+<h4>Student Name: {{student?.firstName}}</h4>
+<h4>Student Last Name: {{student?.lastName}}</h4>
+
+
+<div *ngIf="dataSource.data.length === 0" class="no-data">
+  <p>No students to display.</p>
+</div>
+
+<button mat-flat-button (click)="pokaziFormu()">
+  Upisi godinu
+</button>
+
+@if(showForm)
+{
+  <form [formGroup]="form" (ngSubmit)="upisiGodinu()">
+    <label>Datum upisa*</label>
+    <input type="date" formControlName="datumUpisa" required>
+    @if(form.get('duValidator')!.getError('min'))
+    {
+      <small>Date must be larger than {{selectedAcademicYear?.startDate}}</small>
+    }
+    @if(form.get('duValidator')!.getError('max'))
+    {
+      <small>Date must be smaller than {{selectedAcademicYear?.endDate}}</small>
+    }
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Godina studija</mat-label>
+      <input formControlName="godinaStudija" matInput required type="number" min="1" max="5"/>
+      <mat-error *ngIf="form.get('godinaStudija')?.invalid && form.get('godinaStudija')?.touched">
+        <!-- Dinamičko prikazivanje grešaka -->
+        <ng-container *ngIf="form.get('godinaStudija')?.errors as errors">
+          <small *ngIf="errors['required']">Godina studija is required.</small>
+          <small *ngIf="errors['min']">
+            Minimum 1
+          </small>
+          <small *ngIf="errors['max']">
+            Maximum 5
+          </small>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Akademska godina</mat-label>
+      <mat-select formControlName="akademskaGodinaId" required>
+        <mat-option *ngFor="let ay of academicYears" [value]="ay.id">
+          {{ ay.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('akademskaGodinaId')?.invalid && form.get('akademskaGodinaId')?.touched">
+        <ng-container *ngIf="form.get('akademskaGodinaId')?.errors as errors">
+          <small *ngIf="errors['required']">Akademska godina is required.</small>
+        </ng-container>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Cijena skolarine</mat-label>
+      <input formControlName="cijenaSkolarine" matInput/>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="obnova">Obnova</mat-checkbox>
+
+    <div class="form-buttons">
+      <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">
+        Save
+      </button>
+      <button color="warn" mat-stroked-button (click)="pokaziFormu()" type="button">
+        Cancel
+      </button>
+    </div>
+  </form>
+}
+
+<table [dataSource]="dataSource!" class="mat-elevation-z8" mat-table matSort>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.id }}</mat-cell>
+  </ng-container>
+
+  <!-- Region Name Column -->
+  <ng-container matColumnDef="akademska">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Academic Year</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.akademskaGodina }}</mat-cell>
+  </ng-container>
+
+  <!-- Country Name Column -->
+  <ng-container matColumnDef="godina">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Year of study</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.godinaStudija }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="obnova">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Renewal</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.obnova }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="datumUpisa">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Winter semester</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.datumUpisa }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="snimio">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Recorded by</mat-header-cell>
+    <mat-cell *matCellDef="let s">{{ s.snimio }}</mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+    <mat-cell *matCellDef="let s">
+      <div class="actions">
+      @if(!s.datumOvjere)
+      {
+        <button (click)="ovjeriSemestar(s.id)" color="primary" mat-button>
+          <mat-icon>verified</mat-icon>
+          Ovjeri semestar
+        </button>
+      } @else {
+        <div>Ovjereno {{s.datumOvjere.split("T")[0]}}</div>
+        @if (s.napomena) {
+          <div>Napomena: {{s.napomena}}</div>
+        }
+      }
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Table Header and Rows -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</table>

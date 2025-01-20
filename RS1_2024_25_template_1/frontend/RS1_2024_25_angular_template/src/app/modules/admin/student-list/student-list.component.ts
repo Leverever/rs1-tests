@@ -67,6 +67,13 @@ export class StudentListComponent implements OnInit{
       next: (data) => {
         this.students = data;
         this.dataSource.data = this.students.dataItems
+        if(this.showDeleted)
+        {
+          this.dataSource.data = this.students!.dataItems;
+        }
+        else {
+          this.dataSource.data = this.students!.dataItems.filter(s => !s.isDeleted)
+        }
       }
     })
   }
@@ -118,12 +125,10 @@ export class StudentListComponent implements OnInit{
 
   toggleDeleted() {
     this.showDeleted = !this.showDeleted;
-    if(this.showDeleted)
-    {
-      this.dataSource.data = this.students!.dataItems;
-    }
-    else {
-      this.dataSource.data = this.students!.dataItems.filter(s => !s.isDeleted)
-    }
+    this.loadStudents()
+  }
+
+  maticna(id:number) {
+    this.router.navigate(["/admin/maticna", id]);
   }
 }

@@ -1,0 +1,9 @@
+<form (ngSubmit)="ovjeri()">
+  <mat-form-field>
+    <mat-label>Napomena</mat-label>
+    <input matInput [formControl]="napomena">
+  </mat-form-field>
+
+  <button mat-flat-button type="submit">Ovjeri semestar</button>
+  <button mat-flat-button type="button" (click)="location.back()">Otkazi</button>
+</form>

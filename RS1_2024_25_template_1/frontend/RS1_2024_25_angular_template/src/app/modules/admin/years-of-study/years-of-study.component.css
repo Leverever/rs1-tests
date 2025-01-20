@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 50%;
+  background-color: aliceblue;
+  box-sizing: border-box;
+  padding: 2vh;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1vh;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+}
